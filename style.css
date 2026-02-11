@@ -35,6 +35,18 @@ h1 {
   margin-bottom: 20px;
 }
 
+.search-group {
+  margin-bottom: 12px;
+}
+
+#search-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+}
+
 #todo-input {
   flex: 1;
   padding: 10px;
