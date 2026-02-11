@@ -1,97 +1,174 @@
 /* 全体のリセットと基本設定 */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .container {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 400px;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
 }
 
 .input-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 #todo-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    outline: none;
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
 }
 
 #add-btn {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 #add-btn:hover {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 li {
-    background: #fff;
-    border-bottom: 1px solid #eee;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.2s;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
 }
 
 li:hover {
-    background-color: #fafafa;
+  background-color: #fafafa;
+}
+
+/* アニメーション：追加時のフェード＆スライド */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in {
+  animation: slideIn 240ms cubic-bezier(0.22, 0.9, 0.35, 1);
+}
+
+/* 削除時の縮小フェードアウト */
+@keyframes shrinkOut {
+  to {
+    opacity: 0;
+    transform: scale(0.96) translateX(8px);
+    height: 0;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+.removing {
+  animation: shrinkOut 220ms ease forwards;
+}
+
+/* タスク完了時のライン描画アニメーション */
+li span {
+  position: relative;
+  display: inline-block;
+}
+li span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 2px;
+  background: #888;
+  width: 0;
+  transform: translateY(-50%);
+  transition: width 260ms ease;
+}
+
+li.completed span::after {
+  width: 100%;
+}
+
+/* 期限表示 */
+.due {
+  font-size: 0.8rem;
+  color: #666;
+  margin-left: 12px;
+}
+.due time {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #f0f0f0;
+}
+.overdue .due time {
+  background: #ffe6e6;
+  color: #c70000;
+  font-weight: 600;
+}
+
+/* small responsive tweak for date input */
+#todo-due {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
 }
 
 /* 完了したタスクのスタイル */
 li.completed span {
-    text-decoration: line-through;
-    color: #888;
+  text-decoration: line-through;
+  color: #888;
 }
 
 .delete-btn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    margin-left: 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-left: 10px;
 }
 
 .delete-btn:hover {
-    background-color: #c82333;
+  background-color: #c82333;
 }
