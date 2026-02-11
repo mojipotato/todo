@@ -19,14 +19,20 @@ function init() {
 
 // 2. 画面描画関数（状態に基づいてHTMLを生成）
 function renderTodos() {
-  const q = (searchInput && searchInput.value ? searchInput.value.trim().toLowerCase() : "").replace(/\s+/g, " ");
+  const q = (
+    searchInput && searchInput.value
+      ? searchInput.value.trim().toLowerCase()
+      : ""
+  ).replace(/\s+/g, " ");
   todoList.innerHTML = ""; // リストを一旦クリア
 
   todos.forEach((todo) => {
     // フィルタ: タスク本文または期限表示にクエリが含まれるか
     if (q) {
       const textMatch = todo.text.toLowerCase().includes(q);
-      const dueMatch = todo.due ? new Date(todo.due).toLocaleDateString().toLowerCase().includes(q) : false;
+      const dueMatch = todo.due
+        ? new Date(todo.due).toLocaleDateString().toLowerCase().includes(q)
+        : false;
       if (!textMatch && !dueMatch) return; // マッチしないのでスキップ
     }
 
