@@ -3,6 +3,7 @@ const todoInput = document.getElementById("todo-input");
 const todoDueInput = document.getElementById("todo-due");
 const addBtn = document.getElementById("add-btn");
 const todoList = document.getElementById("todo-list");
+const searchInput = document.getElementById("search-input");
 
 // タスクを管理する配列
 let todos = [];
@@ -18,9 +19,23 @@ function init() {
 
 // 2. 画面描画関数（状態に基づいてHTMLを生成）
 function renderTodos() {
+  const q = (
+    searchInput && searchInput.value
+      ? searchInput.value.trim().toLowerCase()
+      : ""
+  ).replace(/\s+/g, " ");
   todoList.innerHTML = ""; // リストを一旦クリア
 
   todos.forEach((todo) => {
+    // フィルタ: タスク本文または期限表示にクエリが含まれるか
+    if (q) {
+      const textMatch = todo.text.toLowerCase().includes(q);
+      const dueMatch = todo.due
+        ? new Date(todo.due).toLocaleDateString().toLowerCase().includes(q)
+        : false;
+      if (!textMatch && !dueMatch) return; // マッチしないのでスキップ
+    }
+
     const li = createTodoElement(todo);
     // 期限が設定されていて未完了かつ現在日付が期限を過ぎていれば overdue クラスを付与
     if (todo.due && !todo.completed) {
@@ -101,9 +116,8 @@ function addTodo() {
 
   todos.push(newTodo);
   saveTodos();
-  // 新しい要素だけを追加してアニメーション
-  const li = createTodoElement(newTodo, true);
-  todoList.appendChild(li);
+  // リストを再描画（検索中でも反映されるように）
+  renderTodos();
   todoInput.value = ""; // 入力欄をクリア
   if (todoDueInput) todoDueInput.value = "";
 }
@@ -143,6 +157,11 @@ function animateRemove(li, id) {
 
 // イベントリスナーの設定
 addBtn.addEventListener("click", addTodo);
+
+// 検索イベント（リアルタイム）
+if (searchInput) {
+  searchInput.addEventListener("input", () => renderTodos());
+}
 
 // Enterキーでも追加できるようにする
 todoInput.addEventListener("keypress", (e) => {
